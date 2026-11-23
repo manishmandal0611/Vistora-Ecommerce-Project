@@ -84,6 +84,14 @@ npm run dev
 
 Open http://localhost:5173 in your browser.
 
+### ## Demo Account (Seeded)
+
+| Role         | Email                  | Password       |
+| :----------- | :--------------------- | :------------- |
+| **Customer** | `customer@vistora.dev` | `Password123!` |
+
+> _Note: Admin dashboard access is restricted for catalog integrity and can be demonstrated live upon request._
+
 ### Contact
 
 Developer: Manish Mandal
