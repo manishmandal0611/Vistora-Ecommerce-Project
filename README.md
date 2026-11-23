@@ -50,3 +50,44 @@ vistora-ecommerce/
 │   └── package.json
 └── README.md
 ```
+
+### Local Setup & Installation
+
+# 1. Clone the Repository
+
+https://github.com/manishmandal0611/Vistora-Ecommerce-Project.git
+
+# 2. Backend Setup
+
+cd backend
+npm install
+
+### Create a .env file inside backend/ and add your environment variables:
+
+# PORT=5000
+
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+
+### npm run seed
+
+### Start the backend server:
+
+npm run dev
+
+# 3. Frontend Setup
+
+Open a new terminal and run:
+cd frontend
+npm install
+npm run dev
+
+Open http://localhost:5173 in your browser.
+
+### Contact
+
+Developer: Manish Mandal
+
+Email: manishmandal0611@gmail.com
+
+Location: Ghaziabad, Uttar Pradesh, India
