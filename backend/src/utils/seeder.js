@@ -109,15 +109,20 @@ const seedDatabase = async () => {
   try {
     await connectDB();
 
-    const adminEmail = "admin@vistora.dev";
+    const adminEmail = process.env.ADMIN_EMAIL || "admin@vistora.dev";
+    const adminPassword = process.env.ADMIN_PASSWORD;
     const customerEmail = "customer@vistora.dev";
+
+    if (!adminPassword) {
+      throw new Error("ADMIN_PASSWORD is missing in backend/.env");
+    }
 
     let adminUser = await User.findOne({ email: adminEmail });
     if (!adminUser) {
       adminUser = await User.create({
         name: "Store Admin",
         email: adminEmail,
-        password: "Password123!",
+        password: adminPassword,
         role: "admin",
         address: {
           street: "101 Tech Park Road",
@@ -127,6 +132,9 @@ const seedDatabase = async () => {
           country: "India",
         },
       });
+    } else {
+      adminUser.password = adminPassword;
+      await adminUser.save();
     }
 
     const existingCustomer = await User.findOne({ email: customerEmail });
@@ -154,8 +162,10 @@ const seedDatabase = async () => {
     await Product.insertMany(productsWithCreator);
 
     console.log("VISTORA database seeded successfully!");
-    console.log("Admin Login:    admin@vistora.dev / Password123!");
-    console.log("Customer Login: customer@vistora.dev / Password123!");
+    console.log(
+      `Admin account ready:    ${adminEmail} (password loaded from .env)`,
+    );
+    console.log("Customer demo login:    customer@vistora.dev / Password123!");
     await mongoose.connection.close();
     process.exit(0);
   } catch (error) {

@@ -41,7 +41,7 @@ const LoginPage = () => {
           Sign in
         </h1>
         <p className="mt-1 text-sm text-slate-500">
-          Access your cart, mock checkout orders, and account settings.
+          Access your VISTORA cart, orders, and account settings.
         </p>
 
         {error && (
@@ -98,7 +98,7 @@ const LoginPage = () => {
 
         <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-3.5">
           <p className="text-xs font-semibold text-slate-700">
-            Quick Fill Seeded Accounts:
+            Quick Fill Demo Account:
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
             <button
@@ -109,15 +109,6 @@ const LoginPage = () => {
               className="rounded-md border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100"
             >
               Demo Customer
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                fillDemoAccount("admin@vistora.dev", "Password123!")
-              }
-              className="rounded-md border border-indigo-200 bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-700 hover:bg-indigo-100"
-            >
-              Store Admin
             </button>
           </div>
         </div>
