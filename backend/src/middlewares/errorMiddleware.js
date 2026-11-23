@@ -5,6 +5,10 @@ export const notFound = (req, res, next) => {
 };
 
 export const errorHandler = (err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
+
   let statusCode =
     err.statusCode ||
     (res.statusCode && res.statusCode !== 200 ? res.statusCode : 500);
@@ -42,9 +46,10 @@ export const errorHandler = (err, req, res, next) => {
     message = "Authentication token has expired";
   }
 
-  if (process.env.NODE_ENV !== "production") {
-    console.error(`[Error ${statusCode}]:`, err.message);
-  }
+  console.error(
+    `[Error ${statusCode}] ${req.method} ${req.originalUrl}:`,
+    err.message,
+  );
 
   res.status(statusCode).json({
     success: false,
