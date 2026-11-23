@@ -1,3 +1,4 @@
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import express from "express";
@@ -16,6 +17,8 @@ const app = express();
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  process.env.RENDER_EXTERNAL_URL,
+  "https://vistora-ecommerce.onrender.com",
   "http://localhost:5173",
   "http://127.0.0.1:5173",
   "http://localhost:5174",
@@ -38,7 +41,7 @@ app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 // Serve uploaded images from backend/uploads
-app.use("/uploads", express.static(path.resolve("uploads")));
+app.use("/uploads", express.static(path.resolve(__dirname, "../../uploads")));
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({
@@ -56,14 +59,33 @@ app.use("/api/upload", uploadRoutes);
 
 // Serve Frontend in Production (Single-Server Deployment)
 if (process.env.NODE_ENV === "production") {
-  const frontendDistPath = path.resolve(__dirname, "../../frontend/dist");
+  const candidateDistPaths = [
+    path.resolve(__dirname, "../../frontend/dist"),
+    path.resolve(process.cwd(), "frontend/dist"),
+    path.resolve(process.cwd(), "../frontend/dist"),
+  ];
+
+  const frontendDistPath =
+    candidateDistPaths.find((distPath) => fs.existsSync(distPath)) ||
+    candidateDistPaths[0];
+
   app.use(express.static(frontendDistPath));
 
   app.use((req, res, next) => {
     if (req.path.startsWith("/api") || req.path.startsWith("/uploads")) {
       return next();
     }
-    return res.sendFile(path.join(frontendDistPath, "index.html"));
+
+    const indexHtmlPath = path.join(frontendDistPath, "index.html");
+    if (!fs.existsSync(indexHtmlPath)) {
+      return res.status(404).send("Frontend build not found");
+    }
+
+    return res.sendFile(indexHtmlPath, (err) => {
+      if (err) {
+        return next(err);
+      }
+    });
   });
 }
 
