@@ -41,7 +41,7 @@ app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 // Serve uploaded images from backend/uploads
-app.use("/uploads", express.static(path.resolve(__dirname, "../../uploads")));
+app.use("/uploads", express.static(path.resolve(__dirname, "../uploads")));
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({
