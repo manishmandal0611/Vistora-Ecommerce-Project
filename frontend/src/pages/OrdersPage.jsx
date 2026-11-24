@@ -80,8 +80,8 @@ const OrdersPage = () => {
             My Orders
           </h1>
           <p className="mt-1 text-sm text-slate-500">
-            Track your mock checkout transactions, payment statuses, and
-            shipping details.
+            Track your checkout transactions, payment statuses, and shipping
+            details.
           </p>
         </div>
 
@@ -103,7 +103,7 @@ const OrdersPage = () => {
         <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-xs">
           <h2 className="text-lg font-bold text-slate-900">No orders yet</h2>
           <p className="mt-1 text-sm text-slate-500">
-            Complete a mock checkout from your cart to see your orders here.
+            Complete checkout from your cart to see your orders here.
           </p>
           <Link
             to="/"
@@ -128,7 +128,7 @@ const OrdersPage = () => {
                   <p className="mt-1 text-xs text-slate-500">
                     Placed on {formatDate(order.createdAt)} • Gateway:{" "}
                     <span className="font-medium text-slate-700">
-                      {order.paymentInfo?.provider || "mock"}
+                      {order.paymentInfo?.provider || "gateway"}
                     </span>
                   </p>
                 </div>

@@ -332,7 +332,7 @@ const AdminDashboardPage = () => {
                   onError={(e) => {
                     e.currentTarget.src = FALLBACK_IMAGE;
                   }}
-                  className="h-12 w-12 rounded-md object-cover bg-white"
+                  className="h-12 w-12 rounded-md object-contain bg-white p-0.5"
                 />
                 <span className="truncate font-mono text-[11px] text-slate-600">
                   {form.image}
@@ -412,7 +412,7 @@ const AdminDashboardPage = () => {
                               onError={(e) => {
                                 e.currentTarget.src = FALLBACK_IMAGE;
                               }}
-                              className="h-10 w-10 rounded-lg object-cover bg-slate-100"
+                              className="h-10 w-10 rounded-lg object-contain bg-slate-100 p-0.5"
                             />
                             <div>
                               <p className="font-semibold text-slate-900">

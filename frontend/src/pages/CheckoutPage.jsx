@@ -11,6 +11,18 @@ const formatINR = (amount) =>
     maximumFractionDigits: 2,
   }).format(Number(amount) || 0);
 
+const sanitizePaymentMessage = (msg, fallback) => {
+  const raw = (msg || "").trim();
+  if (!raw) return fallback;
+  const cleaned = raw
+    .replace(/\bmock\s+/gi, "")
+    .replace(/\s+\(mock\)/gi, "")
+    .replace(/\bmock\b/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+  return cleaned || fallback;
+};
+
 const CheckoutPage = () => {
   const { user, refreshUser } = useAuth();
   const { items, subtotal, fetchCart } = useCart();
@@ -53,7 +65,7 @@ const CheckoutPage = () => {
     setSubmitting(true);
 
     try {
-      // 1. Create pending order + mock gateway order ID
+      // 1. Create pending order + gateway order ID
       const { data: orderRes } = await api.post("/payments/create-order", {
         provider,
         shippingAddress,
@@ -74,8 +86,10 @@ const CheckoutPage = () => {
       await refreshUser();
     } catch (err) {
       setError(
-        err.response?.data?.message ||
-          "Checkout or mock payment verification failed",
+        sanitizePaymentMessage(
+          err.response?.data?.message,
+          "Checkout or payment verification failed",
+        ),
       );
     } finally {
       setSubmitting(false);
@@ -168,7 +182,7 @@ const CheckoutPage = () => {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="mb-6 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-        Mock Checkout
+        Checkout
       </h1>
 
       {error && (
@@ -265,11 +279,9 @@ const CheckoutPage = () => {
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-            <h2 className="text-lg font-bold text-slate-900">
-              Mock Payment Gateway
-            </h2>
+            <h2 className="text-lg font-bold text-slate-900">Payment Method</h2>
             <p className="mt-1 text-xs text-slate-500">
-              Simulated payment flow—no real card or UPI charge occurs.
+              Test payment checkout—no real card or UPI charge occurs.
             </p>
 
             <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -289,9 +301,7 @@ const CheckoutPage = () => {
                   className="text-indigo-600"
                 />
                 <div>
-                  <div className="font-semibold text-slate-900">
-                    Razorpay (Mock)
-                  </div>
+                  <div className="font-semibold text-slate-900">Razorpay</div>
                   <div className="text-xs text-slate-500">
                     UPI / Cards / Netbanking
                   </div>
@@ -314,9 +324,7 @@ const CheckoutPage = () => {
                   className="text-indigo-600"
                 />
                 <div>
-                  <div className="font-semibold text-slate-900">
-                    Stripe (Mock)
-                  </div>
+                  <div className="font-semibold text-slate-900">Stripe</div>
                   <div className="text-xs text-slate-500">
                     PaymentIntent Test Flow
                   </div>
@@ -331,7 +339,7 @@ const CheckoutPage = () => {
                 onChange={(e) => setSimulateFailure(e.target.checked)}
                 className="rounded border-slate-300 text-indigo-600"
               />
-              <span>Simulate declined / failed mock payment</span>
+              <span>Simulate declined / failed payment</span>
             </label>
           </div>
         </div>
@@ -387,8 +395,8 @@ const CheckoutPage = () => {
             className="mt-6 w-full rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-50"
           >
             {submitting
-              ? "Processing Mock Payment..."
-              : `Pay ${formatINR(grandTotal)} (Mock)`}
+              ? "Processing Payment..."
+              : `Pay ${formatINR(grandTotal)}`}
           </button>
         </div>
       </form>

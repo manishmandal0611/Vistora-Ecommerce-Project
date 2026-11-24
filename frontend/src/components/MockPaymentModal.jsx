@@ -22,8 +22,8 @@ const MockPaymentModal = ({
 
   const providerLabel =
     provider === "mock_stripe"
-      ? "Stripe (Mock Gateway)"
-      : "Razorpay (Mock Gateway)";
+      ? "Stripe Payment Gateway"
+      : "Razorpay Payment Gateway";
 
   const handleConfirm = async () => {
     await onConfirmPayment({ simulateFailure });
@@ -34,16 +34,16 @@ const MockPaymentModal = ({
       className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="mock-payment-title"
+      aria-labelledby="payment-modal-title"
     >
       <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-xl">
         <div className="flex items-start justify-between gap-4 border-b border-slate-100 pb-4">
           <div>
             <span className="inline-block rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-700">
-              Test Mode
+              Sandbox Mode
             </span>
             <h2
-              id="mock-payment-title"
+              id="payment-modal-title"
               className="mt-1.5 text-lg font-bold text-slate-900"
             >
               {providerLabel}
@@ -76,9 +76,8 @@ const MockPaymentModal = ({
           </div>
 
           <p className="text-xs leading-relaxed text-slate-500">
-            Yeh ek simulated checkout popup hai. Koi real card, UPI, ya bank
-            transaction nahi hoga; confirmation ke baad backend par
-            `/api/payments/verify` call hoga.
+            Sandbox checkout confirmation—no real card, UPI, or bank charge
+            occurs; confirming verifies the order via /api/payments/verify.
           </p>
 
           <label className="flex cursor-pointer items-center gap-2.5 rounded-lg border border-slate-200 p-3 text-xs text-slate-700 hover:bg-slate-50">

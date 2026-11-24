@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { resolveImageUrl } from "../utils/imageUrl";
 
 const formatINR = (amount) =>
   new Intl.NumberFormat("en-IN", {
@@ -138,12 +139,12 @@ const CartPage = () => {
                 <div className="flex items-center gap-4">
                   <Link
                     to={`/products/${product._id}`}
-                    className="h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-slate-100"
+                    className="h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-slate-100 p-1"
                   >
                     <img
-                      src={product.image}
+                      src={resolveImageUrl(product.image)}
                       alt={product.name}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-contain"
                     />
                   </Link>
 
@@ -244,7 +245,7 @@ const CartPage = () => {
             onClick={() => navigate("/checkout")}
             className="mt-6 w-full rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
           >
-            Proceed to Mock Checkout
+            Proceed to Checkout
           </button>
         </div>
       </div>
