@@ -123,7 +123,7 @@ const ProductDetailPage = () => {
       </Link>
 
       <div className="grid grid-cols-1 gap-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-xs md:grid-cols-2 lg:p-8">
-        <div className="overflow-hidden rounded-xl bg-slate-100">
+        <div className="flex items-center justify-center overflow-hidden rounded-xl bg-slate-100 p-4">
           <img
             src={imgSrc}
             alt={product.name}
@@ -132,7 +132,7 @@ const ProductDetailPage = () => {
                 setImgSrc(PLACEHOLDER_IMAGE);
               }
             }}
-            className="h-full max-h-[460px] w-full object-cover"
+            className="h-full max-h-[460px] w-full object-contain"
           />
         </div>
 

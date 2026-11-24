@@ -67,7 +67,7 @@ const ProductCard = ({ product }) => {
       <div>
         <Link
           to={`/products/${product._id}`}
-          className="block aspect-4/3 overflow-hidden bg-slate-100"
+          className="block aspect-4/3 overflow-hidden bg-slate-100 p-2"
         >
           <img
             src={imgSrc}
@@ -78,7 +78,7 @@ const ProductCard = ({ product }) => {
                 setImgSrc(PLACEHOLDER_IMAGE);
               }
             }}
-            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+            className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
           />
         </Link>
 
