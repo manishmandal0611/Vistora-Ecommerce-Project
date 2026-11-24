@@ -15,9 +15,13 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+const normalizeOrigin = (url) =>
+  typeof url === "string" ? url.trim().replace(/\/+$/, "") : "";
+
 const allowedOrigins = [
-  process.env.CLIENT_URL,
-  process.env.RENDER_EXTERNAL_URL,
+  normalizeOrigin(process.env.CLIENT_URL),
+  normalizeOrigin(process.env.RENDER_EXTERNAL_URL),
+  "https://manish-vistora-shop.netlify.app",
   "https://vistora-ecommerce.onrender.com",
   "http://localhost:5173",
   "http://127.0.0.1:5173",
@@ -28,7 +32,8 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      const normalizedOrigin = normalizeOrigin(origin);
+      if (!origin || allowedOrigins.includes(normalizedOrigin)) {
         return callback(null, true);
       }
       return callback(new Error("Not allowed by CORS"));
